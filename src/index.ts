@@ -1,1 +1,1 @@
-export { TypedContract } from "./typed-contract";
+export { TypedContract as default } from "./typed-contract";

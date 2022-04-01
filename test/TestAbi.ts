@@ -32,7 +32,7 @@ contract TestAbi {
 ```
 */
 
-export const TestAbi = <const>[
+export default <const>[
   {
     anonymous: false,
     inputs: [

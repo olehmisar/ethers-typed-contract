@@ -1,9 +1,9 @@
 import { ethers } from "ethers";
 import { StrictOmit } from "ts-essentials";
-import { TypedContract } from "../src";
+import TypedContract from "../src";
 import { TestAbi as TypechainTestAbi } from "./generated/typechain";
 import { assertType, Diff, Equals } from "./test-utils";
-import { TestAbi } from "./TestAbi";
+import TestAbi from "./TestAbi";
 
 const typedContract = new TypedContract(ethers.constants.AddressZero, TestAbi);
 

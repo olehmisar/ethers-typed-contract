@@ -1,13 +1,32 @@
 {
+  "name": "ethers-typed-contract",
+  "version": "0.0.1",
+  "description": "ethers.js Contract with type definitions inferred directly from the ABI.",
+  "license": "MIT",
+  "author": "Oleh Misarosh <olehmisar@gmail.com>",
+  "repository": "https://github.com/olehmisar/ethers-typed-contract",
+  "keywords": [
+    "ethers",
+    "contract",
+    "typescript",
+    "types"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "ts-node scripts/runTypechain.ts && tsc --noEmit"
+    "build": "rm -rf ./dist && tsc -p tsconfig.build.json",
+    "test": "ts-node scripts/runTypechain.ts && tsc --noEmit",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "dependencies": {
     "ts-essentials": "^9.1.2"
   },
   "peerDependencies": {
-    "ethers": "^5.6.1",
-    "typescript": "^4.6.2"
+    "ethers": "^5.0.0",
+    "typescript": ">=4.1.0"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^9.0.0",

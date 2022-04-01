@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { runTypeChain } from "typechain";
-import { TestAbi } from "../test/TestAbi";
+import TestAbi from "../test/TestAbi";
 
 main();
 async function main() {
