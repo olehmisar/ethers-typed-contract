@@ -2,6 +2,12 @@
 
 `TypedContract` - ethers.js `Contract` with type definitions inferred from the ABI.
 
+```sh
+npm install ethers-typed-contract
+# or
+yarn add ethers-typed-contract
+```
+
 ```ts
 import TypedContract from "ethers-typed-contract";
 
