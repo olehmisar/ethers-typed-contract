@@ -29,14 +29,17 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
 
 ## TODO
 
-- [ ] Support for functions:
-  - [x] methods directly on a contract. E.g., `token.transfer`
-  - [x] `.functions`, `.callStatic`, `.estimateGas`, and `.populateTransaction` buckets. E.g., `token.functions.transfer`
-  - [ ] overloaded functions, e.g., `contract['fn()']` and `contract['fn(uint256)']`
-- [x] Support for events\*:
-  - [x] `filters`
-  - [x] `queryFilter`, `on`, `once`, `off`, `listeners`, `removeListener`, `removeAllListeners` \*
 - [ ] Support more data types:
   - [ ] all primitive types
   - [ ] `struct`
   - [ ] arrays
+- [ ] Support for `contract.interface`
+- [ ] Support for functions:
+  - [ ] overloaded functions, e.g., `contract['fn()']` and `contract['fn(uint256)']`
+  - [x] methods directly on a contract. E.g., `contract.transfer`
+  - [x] `.functions`, `.callStatic`, `.estimateGas`, and `.populateTransaction` buckets. E.g., `contract.functions.transfer`
+- [x] Support for events\*:
+  - [x] `filters`
+  - [x] `queryFilter`, `on`, `once`, `off`, `listeners`, `removeListener`, `removeAllListeners` \*
+
+\* `queryFilter`, `on`, `once`, `off`, `listeners`, `removeListener`, `removeAllListeners` have full type safety but I couldn't make them match the typechain typings.
