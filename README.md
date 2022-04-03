@@ -38,6 +38,7 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
 ## Known limitations
 
 - Only a small number of solidity types are supported. See more in [TODO section](#todo)
+- Function and events parameters and return names are not preserved (issues and PRs are welcome if you know how to make a named tuple from a mapped object)
 - It's impossible to use JSON ABI files because typescript does not allow importing JSON files `as const`. [Typescript issue](https://github.com/microsoft/TypeScript/issues/32063).
   To work this around:
 
@@ -57,8 +58,8 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
   - [ ] `struct`
   - [ ] arrays
 - [ ] Support for `contract.interface`
-- [ ] Support for functions:
-  - [ ] overloaded functions, e.g., `contract['fn()']` and `contract['fn(uint256)']`
+- [x] Support for functions:
+  - [x] overloaded functions, e.g., `contract['fn()']` and `contract['fn(uint256)']`
   - [x] methods directly on a contract. E.g., `contract.transfer`
   - [x] `.functions`, `.callStatic`, `.estimateGas`, and `.populateTransaction` buckets. E.g., `contract.functions.transfer`
 - [x] Support for events\*:

@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
-import type { AbiItem, AbiToContract } from "./converter";
+import type { AbiToContract } from "./converter";
+import type { AbiItem } from "./converter/types";
 
 export const TypedContract: new <T extends readonly AbiItem[]>(
   addressOrName: string,

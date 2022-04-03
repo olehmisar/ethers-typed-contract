@@ -27,6 +27,10 @@ contract TestAbi {
     function pureArgsOneReturn(uint256 a, address b) external pure returns (uint256) {}
     function pureArgsTupleReturn(uint256 a, address b) external pure returns (uint256, address) {}
 
+    function overloaded() external {}
+    function overloaded(uint256 a) external {}
+    function overloaded(uint256 a, address b) external {}
+
     function differentTypes(address a, uint256 u, int256 i, bool b, string memory s) external {}
 }
 ```
@@ -203,6 +207,44 @@ export default <const>[
   {
     inputs: [],
     name: "noArgsNoReturn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "overloaded",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "a",
+        type: "uint256",
+      },
+    ],
+    name: "overloaded",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "a",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "b",
+        type: "address",
+      },
+    ],
+    name: "overloaded",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

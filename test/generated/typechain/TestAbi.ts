@@ -26,6 +26,7 @@ export interface TestAbiInterface extends utils.Interface {
     "argsTupleReturn(uint256,address)": FunctionFragment;
     "differentTypes(address,uint256,int256,bool,string)": FunctionFragment;
     "noArgsNoReturn()": FunctionFragment;
+    "overloaded()": FunctionFragment;
     "payableArgsNoReturn(uint256,address)": FunctionFragment;
     "payableArgsOneReturn(uint256,address)": FunctionFragment;
     "payableArgsTupleReturn(uint256,address)": FunctionFragment;
@@ -58,6 +59,10 @@ export interface TestAbiInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "noArgsNoReturn",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "overloaded",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -129,6 +134,7 @@ export interface TestAbiInterface extends utils.Interface {
     functionFragment: "noArgsNoReturn",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "overloaded", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "payableArgsNoReturn",
     data: BytesLike
@@ -272,6 +278,21 @@ export interface TestAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    "overloaded()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "overloaded(uint256)"(
+      a: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "overloaded(uint256,address)"(
+      a: BigNumberish,
+      b: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     payableArgsNoReturn(
       a: BigNumberish,
       b: string,
@@ -366,6 +387,21 @@ export interface TestAbi extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  "overloaded()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "overloaded(uint256)"(
+    a: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "overloaded(uint256,address)"(
+    a: BigNumberish,
+    b: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   payableArgsNoReturn(
     a: BigNumberish,
     b: string,
@@ -457,6 +493,19 @@ export interface TestAbi extends BaseContract {
     ): Promise<void>;
 
     noArgsNoReturn(overrides?: CallOverrides): Promise<void>;
+
+    "overloaded()"(overrides?: CallOverrides): Promise<void>;
+
+    "overloaded(uint256)"(
+      a: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "overloaded(uint256,address)"(
+      a: BigNumberish,
+      b: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     payableArgsNoReturn(
       a: BigNumberish,
@@ -573,6 +622,21 @@ export interface TestAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    "overloaded()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "overloaded(uint256)"(
+      a: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "overloaded(uint256,address)"(
+      a: BigNumberish,
+      b: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     payableArgsNoReturn(
       a: BigNumberish,
       b: string,
@@ -665,6 +729,21 @@ export interface TestAbi extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     noArgsNoReturn(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "overloaded()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "overloaded(uint256)"(
+      a: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "overloaded(uint256,address)"(
+      a: BigNumberish,
+      b: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

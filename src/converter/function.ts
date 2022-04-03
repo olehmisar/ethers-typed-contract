@@ -1,16 +1,17 @@
 import { ethers } from "ethers";
-import { DeepReadonly, UnionToIntersection } from "ts-essentials";
-import { AbiItem } from ".";
-import { ExpandObject } from "../utils";
+import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
+import { ArrayOmit, Count, ExpandObject, __VALUE_TO_OMIT__ } from "../utils";
 import {
   AbiInputTypeToTypescriptType,
+  AbiItem,
+  AbiItemToSignature,
   AbiOutputTypeToTypescriptType,
   AbiVarType,
   VoidOrSingleOrTuple,
 } from "./types";
 
 // Types
-type AbiFunctionVar = DeepReadonly<{ name: string; type: AbiVarType }>;
+export type AbiFunctionVar = DeepReadonly<{ name: string; type: AbiVarType }>;
 type AbiStateMutability = "pure" | "view" | "nonpayable" | "payable";
 export type AbiItemFunction = DeepReadonly<{
   type: "function";
@@ -21,6 +22,11 @@ export type AbiItemFunction = DeepReadonly<{
 }>;
 
 // Converters
+type AbiItemToFunctionName<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = IsOverloaded extends true ? AbiItemToSignature<T> : T["name"];
+
 type AbiFunctionInputsToParameters<T extends readonly AbiFunctionVar[]> = [
   ...{
     [K in keyof T]: T[K] extends AbiFunctionVar
@@ -63,54 +69,105 @@ type AbiStateMutabilityToOverrides<T extends AbiStateMutability> = {
   pure: ethers.CallOverrides;
 }[T];
 
+export type AbiItemsToNotOverloadedAbiItems<T extends readonly AbiItem[]> =
+  ArrayOmit<
+    [
+      ...{
+        [K in keyof T]: T[K] extends AbiItemFunction
+          ? Count<T, { name: T[K]["name"] }> extends 1
+            ? T[K]
+            : __VALUE_TO_OMIT__
+          : __VALUE_TO_OMIT__;
+      }
+    ],
+    __VALUE_TO_OMIT__
+  >;
+
+export type AbiItemsToOverloadedAbiItems<T extends readonly AbiItem[]> =
+  ArrayOmit<
+    [
+      ...{
+        [K in keyof T]: T[K] extends AbiItemFunction
+          ? Count<T, { name: T[K]["name"] }> extends 1
+            ? __VALUE_TO_OMIT__
+            : T[K]
+          : __VALUE_TO_OMIT__;
+      }
+    ],
+    __VALUE_TO_OMIT__
+  >;
+
 /**
  * Transform single `AbiItem` to an object containing a single method,
  * where parameters and return type may be different depending on `AbiItemFunction['stateMutability']`.
  */
-type AbiItemToMethod<T extends AbiItemFunction> = {
-  [key in T["name"]]: (
+type AbiItemToMethod<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = {
+  [key in AbiItemToFunctionName<T, IsOverloaded>]: (
     ...args: [
       ...AbiFunctionInputsToParameters<T["inputs"]>,
       AbiStateMutabilityToOverrides<T["stateMutability"]>?
     ]
   ) => Promise<AbiFunctionOutputsAndStateMutabilityToReturnType<T, true>>;
 };
-
+type AbiItemsToMethodsInternal<
+  T extends readonly AbiItem[],
+  IsOverloaded extends boolean
+> = UnionToIntersection<
+  {
+    [K in keyof T]: T[K] extends AbiItemFunction
+      ? AbiItemToMethod<T[K], IsOverloaded>
+      : never;
+  }[number]
+>;
 /**
  * Transform an array of `AbiItem`s to direct methods on `ethers.Contract` instance.
  */
-export type AbiItemsToMethods<T extends readonly AbiItem[]> =
-  UnionToIntersection<
-    {
-      [K in keyof T]: T[K] extends AbiItemFunction
-        ? AbiItemToMethod<T[K]>
-        : never;
-    }[number]
-  >;
+export type AbiItemsToMethods<T extends readonly AbiItem[]> = ExpandObject<
+  Merge<
+    AbiItemsToMethodsInternal<AbiItemsToOverloadedAbiItems<T>, true>,
+    AbiItemsToMethodsInternal<AbiItemsToNotOverloadedAbiItems<T>, false>
+  >
+>;
 
-type AbiItemToFunction<T extends AbiItemFunction> = {
-  [key in T["name"]]: (
+type AbiItemToFunction<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = {
+  [key in AbiItemToFunctionName<T, IsOverloaded>]: (
     ...args: [
       ...AbiFunctionInputsToParameters<T["inputs"]>,
       AbiStateMutabilityToOverrides<T["stateMutability"]>?
     ]
   ) => Promise<AbiFunctionOutputsAndStateMutabilityToReturnType<T, false>>;
 };
+type AbiItemsToFunctionsInternal<
+  T extends readonly AbiItemFunction[],
+  IsOverloaded extends boolean
+> = UnionToIntersection<
+  {
+    [K in keyof T]: T[K] extends AbiItemFunction
+      ? AbiItemToFunction<T[K], IsOverloaded>
+      : never;
+  }[number]
+>;
 /**
  * Transform an array of `AbiItem`s to functions on `ethers.Contract.functions`.
  */
 export type AbiItemsToFunctions<T extends readonly AbiItem[]> = ExpandObject<
-  UnionToIntersection<
-    {
-      [K in keyof T]: T[K] extends AbiItemFunction
-        ? AbiItemToFunction<T[K]>
-        : never;
-    }[number]
+  Merge<
+    AbiItemsToFunctionsInternal<AbiItemsToOverloadedAbiItems<T>, true>,
+    AbiItemsToFunctionsInternal<AbiItemsToNotOverloadedAbiItems<T>, false>
   >
 >;
 
-type AbiItemToCallStatic<T extends AbiItemFunction> = {
-  [key in T["name"]]: (
+type AbiItemToCallStatic<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = {
+  [key in AbiItemToFunctionName<T, IsOverloaded>]: (
     ...args: [
       ...AbiFunctionInputsToParameters<T["inputs"]>,
       ethers.CallOverrides?
@@ -119,58 +176,92 @@ type AbiItemToCallStatic<T extends AbiItemFunction> = {
     VoidOrSingleOrTuple<AbiFunctionOutputsToReturnTypes<T["outputs"]>, true>
   >;
 };
+type AbiItemsToCallStaticInternal<
+  T extends readonly AbiItem[],
+  IsOverloaded extends boolean
+> = UnionToIntersection<
+  {
+    [K in keyof T]: T[K] extends AbiItemFunction
+      ? AbiItemToCallStatic<T[K], IsOverloaded>
+      : never;
+  }[number]
+>;
 /**
  * Transform an array of `AbiItem`s to functions on `ethers.Contract.callStatic`.
  */
 export type AbiItemsToCallStatic<T extends readonly AbiItem[]> = ExpandObject<
-  UnionToIntersection<
-    {
-      [K in keyof T]: T[K] extends AbiItemFunction
-        ? AbiItemToCallStatic<T[K]>
-        : never;
-    }[number]
+  Merge<
+    AbiItemsToCallStaticInternal<AbiItemsToOverloadedAbiItems<T>, true>,
+    AbiItemsToCallStaticInternal<AbiItemsToNotOverloadedAbiItems<T>, false>
   >
 >;
 
-type AbiItemToEstimateGas<T extends AbiItemFunction> = {
-  [key in T["name"]]: (
+type AbiItemToEstimateGas<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = {
+  [key in AbiItemToFunctionName<T, IsOverloaded>]: (
     ...args: [
       ...AbiFunctionInputsToParameters<T["inputs"]>,
       AbiStateMutabilityToOverrides<T["stateMutability"]>?
     ]
   ) => Promise<ethers.BigNumber>;
 };
+
+type AbiItemsToEstimateGasInternal<
+  T extends readonly AbiItem[],
+  IsOverloaded extends boolean
+> = UnionToIntersection<
+  {
+    [K in keyof T]: T[K] extends AbiItemFunction
+      ? AbiItemToEstimateGas<T[K], IsOverloaded>
+      : never;
+  }[number]
+>;
 /**
  * Transform an array of `AbiItem`s to functions on `ethers.Contract.estimateGas`.
  */
 export type AbiItemsToEstimateGas<T extends readonly AbiItem[]> = ExpandObject<
-  UnionToIntersection<
-    {
-      [K in keyof T]: T[K] extends AbiItemFunction
-        ? AbiItemToEstimateGas<T[K]>
-        : never;
-    }[number]
+  Merge<
+    AbiItemsToEstimateGasInternal<AbiItemsToOverloadedAbiItems<T>, true>,
+    AbiItemsToEstimateGasInternal<AbiItemsToNotOverloadedAbiItems<T>, false>
   >
 >;
 
-type AbiItemToPopulateTransaction<T extends AbiItemFunction> = {
-  [key in T["name"]]: (
+type AbiItemToPopulateTransaction<
+  T extends AbiItemFunction,
+  IsOverloaded extends boolean
+> = {
+  [key in AbiItemToFunctionName<T, IsOverloaded>]: (
     ...args: [
       ...AbiFunctionInputsToParameters<T["inputs"]>,
       AbiStateMutabilityToOverrides<T["stateMutability"]>?
     ]
   ) => Promise<ethers.PopulatedTransaction>;
 };
+type AbiItemsToPopulateTransactionInternal<
+  T extends readonly AbiItem[],
+  IsOverloaded extends boolean
+> = UnionToIntersection<
+  {
+    [K in keyof T]: T[K] extends AbiItemFunction
+      ? AbiItemToPopulateTransaction<T[K], IsOverloaded>
+      : never;
+  }[number]
+>;
 /**
  * Transform an array of `AbiItem`s to functions on `ethers.Contract.populateTransaction`.
  */
 export type AbiItemsToPopulateTransaction<T extends readonly AbiItem[]> =
   ExpandObject<
-    UnionToIntersection<
-      {
-        [K in keyof T]: T[K] extends AbiItemFunction
-          ? AbiItemToPopulateTransaction<T[K]>
-          : never;
-      }[number]
+    Merge<
+      AbiItemsToPopulateTransactionInternal<
+        AbiItemsToOverloadedAbiItems<T>,
+        true
+      >,
+      AbiItemsToPopulateTransactionInternal<
+        AbiItemsToNotOverloadedAbiItems<T>,
+        false
+      >
     >
   >;
