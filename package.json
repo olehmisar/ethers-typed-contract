@@ -1,6 +1,6 @@
 {
   "name": "ethers-typed-contract",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ethers.js Contract with type definitions inferred directly from the ABI.",
   "license": "MIT",
   "author": "Oleh Misarosh <olehmisar@gmail.com>",
