@@ -24,6 +24,7 @@ export interface TestAbiInterface extends utils.Interface {
     "argsNoReturn(uint256,address)": FunctionFragment;
     "argsOneReturn(uint256,address)": FunctionFragment;
     "argsTupleReturn(uint256,address)": FunctionFragment;
+    "arrayTypes(uint256[],uint256[][],uint256[2],uint256[2][3],uint256[][2],uint256[2][])": FunctionFragment;
     "bytesTypes(bytes1,bytes2,bytes4,bytes8,bytes16,bytes32)": FunctionFragment;
     "dynamicTypes(string,bytes)": FunctionFragment;
     "intTypes(int256,int8,int16,int32,int64,int128,int256)": FunctionFragment;
@@ -56,6 +57,21 @@ export interface TestAbiInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "argsTupleReturn",
     values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "arrayTypes",
+    values: [
+      BigNumberish[],
+      BigNumberish[][],
+      [BigNumberish, BigNumberish],
+      [
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish]
+      ],
+      [BigNumberish[], BigNumberish[]],
+      [BigNumberish, BigNumberish][]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "bytesTypes",
@@ -162,6 +178,7 @@ export interface TestAbiInterface extends utils.Interface {
     functionFragment: "argsTupleReturn",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "arrayTypes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bytesTypes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "dynamicTypes",
@@ -307,6 +324,33 @@ export interface TestAbi extends BaseContract {
       b: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    arrayTypes(
+      arg0: BigNumberish[],
+      arg1: BigNumberish[][],
+      arg2: [BigNumberish, BigNumberish],
+      arg3: [
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish]
+      ],
+      arg4: [BigNumberish[], BigNumberish[]],
+      arg5: [BigNumberish, BigNumberish][],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        BigNumber[],
+        BigNumber[][],
+        [BigNumber, BigNumber],
+        [
+          [BigNumber, BigNumber],
+          [BigNumber, BigNumber],
+          [BigNumber, BigNumber]
+        ],
+        [BigNumber[], BigNumber[]],
+        [BigNumber, BigNumber][]
+      ]
+    >;
 
     bytesTypes(
       arg0: BytesLike,
@@ -456,6 +500,29 @@ export interface TestAbi extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  arrayTypes(
+    arg0: BigNumberish[],
+    arg1: BigNumberish[][],
+    arg2: [BigNumberish, BigNumberish],
+    arg3: [
+      [BigNumberish, BigNumberish],
+      [BigNumberish, BigNumberish],
+      [BigNumberish, BigNumberish]
+    ],
+    arg4: [BigNumberish[], BigNumberish[]],
+    arg5: [BigNumberish, BigNumberish][],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      BigNumber[],
+      BigNumber[][],
+      [BigNumber, BigNumber],
+      [[BigNumber, BigNumber], [BigNumber, BigNumber], [BigNumber, BigNumber]],
+      [BigNumber[], BigNumber[]],
+      [BigNumber, BigNumber][]
+    ]
+  >;
+
   bytesTypes(
     arg0: BytesLike,
     arg1: BytesLike,
@@ -603,6 +670,33 @@ export interface TestAbi extends BaseContract {
       b: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber, string]>;
+
+    arrayTypes(
+      arg0: BigNumberish[],
+      arg1: BigNumberish[][],
+      arg2: [BigNumberish, BigNumberish],
+      arg3: [
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish]
+      ],
+      arg4: [BigNumberish[], BigNumberish[]],
+      arg5: [BigNumberish, BigNumberish][],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        BigNumber[],
+        BigNumber[][],
+        [BigNumber, BigNumber],
+        [
+          [BigNumber, BigNumber],
+          [BigNumber, BigNumber],
+          [BigNumber, BigNumber]
+        ],
+        [BigNumber[], BigNumber[]],
+        [BigNumber, BigNumber][]
+      ]
+    >;
 
     bytesTypes(
       arg0: BytesLike,
@@ -769,6 +863,20 @@ export interface TestAbi extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    arrayTypes(
+      arg0: BigNumberish[],
+      arg1: BigNumberish[][],
+      arg2: [BigNumberish, BigNumberish],
+      arg3: [
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish]
+      ],
+      arg4: [BigNumberish[], BigNumberish[]],
+      arg5: [BigNumberish, BigNumberish][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     bytesTypes(
       arg0: BytesLike,
       arg1: BytesLike,
@@ -912,6 +1020,20 @@ export interface TestAbi extends BaseContract {
       a: BigNumberish,
       b: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    arrayTypes(
+      arg0: BigNumberish[],
+      arg1: BigNumberish[][],
+      arg2: [BigNumberish, BigNumberish],
+      arg3: [
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish],
+        [BigNumberish, BigNumberish]
+      ],
+      arg4: [BigNumberish[], BigNumberish[]],
+      arg5: [BigNumberish, BigNumberish][],
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     bytesTypes(

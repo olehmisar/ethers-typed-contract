@@ -84,6 +84,9 @@ assertType<
 assertType<
   Equals<typeof typedContract["dynamicTypes"], TypechainTestAbi["dynamicTypes"]>
 >();
+assertType<
+  Equals<typeof typedContract["arrayTypes"], TypechainTestAbi["arrayTypes"]>
+>();
 
 ///////////////
 // functions //
@@ -167,6 +170,12 @@ assertType<
   Equals<
     typeof typedContract["functions"]["dynamicTypes"],
     TypechainTestAbi["functions"]["dynamicTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["arrayTypes"],
+    TypechainTestAbi["functions"]["arrayTypes"]
   >
 >();
 
@@ -254,6 +263,12 @@ assertType<
     TypechainTestAbi["callStatic"]["dynamicTypes"]
   >
 >();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["arrayTypes"],
+    TypechainTestAbi["callStatic"]["arrayTypes"]
+  >
+>();
 
 /////////////////
 // estimateGas //
@@ -337,6 +352,12 @@ assertType<
   Equals<
     typeof typedContract["estimateGas"]["dynamicTypes"],
     TypechainTestAbi["estimateGas"]["dynamicTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["arrayTypes"],
+    TypechainTestAbi["estimateGas"]["arrayTypes"]
   >
 >();
 
@@ -425,6 +446,12 @@ assertType<
   Equals<
     typeof typedContract["populateTransaction"]["dynamicTypes"],
     TypechainTestAbi["populateTransaction"]["dynamicTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["arrayTypes"],
+    TypechainTestAbi["populateTransaction"]["arrayTypes"]
   >
 >();
 

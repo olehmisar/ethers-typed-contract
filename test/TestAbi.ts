@@ -40,6 +40,8 @@ contract TestAbi {
     function bytesTypes(bytes1, bytes2, bytes4, bytes8, bytes16, bytes32) external pure returns (bytes1, bytes2, bytes4, bytes8, bytes16, bytes32) {}
     // TODO: pack all available types in a struct(when structs are supported) to test all types (packing into a struct avoids stack too deep error)
     function dynamicTypes(string memory, bytes memory) external pure returns (string memory, bytes memory) {}
+    function arrayTypes(uint256[] memory, uint256[][] memory, uint256[2] memory, uint256[2][3] memory, uint256[][2] memory, uint256[2][] memory)
+        external pure returns (uint256[] memory, uint256[][] memory, uint256[2] memory, uint256[2][3] memory, uint256[][2] memory, uint256[2][] memory) {}
 }
 ```
 */
@@ -176,6 +178,75 @@ export default <const>[
       },
     ],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[][]",
+        name: "",
+        type: "uint256[][]",
+      },
+      {
+        internalType: "uint256[2]",
+        name: "",
+        type: "uint256[2]",
+      },
+      {
+        internalType: "uint256[2][3]",
+        name: "",
+        type: "uint256[2][3]",
+      },
+      {
+        internalType: "uint256[][2]",
+        name: "",
+        type: "uint256[][2]",
+      },
+      {
+        internalType: "uint256[2][]",
+        name: "",
+        type: "uint256[2][]",
+      },
+    ],
+    name: "arrayTypes",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[][]",
+        name: "",
+        type: "uint256[][]",
+      },
+      {
+        internalType: "uint256[2]",
+        name: "",
+        type: "uint256[2]",
+      },
+      {
+        internalType: "uint256[2][3]",
+        name: "",
+        type: "uint256[2][3]",
+      },
+      {
+        internalType: "uint256[][2]",
+        name: "",
+        type: "uint256[][2]",
+      },
+      {
+        internalType: "uint256[2][]",
+        name: "",
+        type: "uint256[2][]",
+      },
+    ],
+    stateMutability: "pure",
     type: "function",
   },
   {

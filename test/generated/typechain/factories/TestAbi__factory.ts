@@ -144,6 +144,75 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[][]",
+        name: "",
+        type: "uint256[][]",
+      },
+      {
+        internalType: "uint256[2]",
+        name: "",
+        type: "uint256[2]",
+      },
+      {
+        internalType: "uint256[2][3]",
+        name: "",
+        type: "uint256[2][3]",
+      },
+      {
+        internalType: "uint256[][2]",
+        name: "",
+        type: "uint256[][2]",
+      },
+      {
+        internalType: "uint256[2][]",
+        name: "",
+        type: "uint256[2][]",
+      },
+    ],
+    name: "arrayTypes",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[][]",
+        name: "",
+        type: "uint256[][]",
+      },
+      {
+        internalType: "uint256[2]",
+        name: "",
+        type: "uint256[2]",
+      },
+      {
+        internalType: "uint256[2][3]",
+        name: "",
+        type: "uint256[2][3]",
+      },
+      {
+        internalType: "uint256[][2]",
+        name: "",
+        type: "uint256[][2]",
+      },
+      {
+        internalType: "uint256[2][]",
+        name: "",
+        type: "uint256[2][]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes1",
         name: "",
         type: "bytes1",

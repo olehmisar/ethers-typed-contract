@@ -1,10 +1,35 @@
 import { ethers } from "ethers";
+import {
+  FixedLengthArray,
+  ParseSolidityArrayBrackets,
+  StringToNumber,
+} from "../utils";
 
-export type AbiVarType = keyof InputTypesMap | keyof OutputTypesMap;
+export type AbiVarType = string;
 export type AbiInputTypeToTypescriptType<T extends AbiVarType> =
-  InputTypesMap[T];
+  AbiVarTypeToTypescriptType<T, InputTypesMap>;
 export type AbiOutputTypeToTypescriptType<T extends AbiVarType> =
-  OutputTypesMap[T];
+  AbiVarTypeToTypescriptType<T, OutputTypesMap>;
+
+type AbiVarTypeToTypescriptType<
+  T extends AbiVarType,
+  TypesMap
+> = T extends keyof TypesMap
+  ? TypesMap[T]
+  : ParseSolidityArrayBrackets<T> extends [infer TElement, infer N]
+  ? TElement extends string
+    ? N extends string
+      ? N extends ""
+        ? AbiVarTypeToTypescriptType<TElement, TypesMap>[]
+        : StringToNumber<N> extends number
+        ? FixedLengthArray<
+            AbiVarTypeToTypescriptType<TElement, TypesMap>,
+            StringToNumber<N>
+          >
+        : unknown
+      : unknown
+    : unknown
+  : unknown;
 
 type InputTypesMap = CommonTypesMap &
   NumberTypesMap<ethers.BigNumberish, ethers.BigNumberish> &

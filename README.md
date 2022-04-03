@@ -37,8 +37,9 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
 
 ## Known limitations
 
-- Only a small number of solidity types are supported. See more in [TODO section](#todo)
+- Solidity `struct`s are not yet supported. [TODO](#todo)
 - Function and events parameters and return names are not preserved (issues and PRs are welcome if you know how to make a named tuple from a mapped object)
+- Fixed-sized arrays must have max of 997 elements for the correct types to be generated
 - It's impossible to use JSON ABI files because typescript does not allow importing JSON files `as const`. [Typescript issue](https://github.com/microsoft/TypeScript/issues/32063).
   To work this around:
 
@@ -56,7 +57,7 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
 - [ ] Support more data types:
   - [x] all primitive types
   - [ ] `struct`
-  - [ ] arrays
+  - [x] arrays
 - [ ] Support for `contract.interface`
 - [x] Support for functions:
   - [x] overloaded functions, e.g., `contract['fn()']` and `contract['fn(uint256)']`
