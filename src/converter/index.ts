@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { MergeN } from "ts-essentials";
 import { ExpandObject } from "../utils";
+import { AbiItem } from "./common";
 import { AbiItemsToEventMethods, AbiItemsToFilters } from "./event";
 import {
   AbiItemsToCallStatic,
@@ -9,7 +10,6 @@ import {
   AbiItemsToMethods,
   AbiItemsToPopulateTransaction,
 } from "./function";
-import { AbiItem } from "./types";
 
 // Main Converter
 export type AbiToContract<T extends readonly AbiItem[]> = ExpandObject<

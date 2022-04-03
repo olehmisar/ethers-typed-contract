@@ -1,49 +1,45 @@
 import { ethers } from "ethers";
-import { DeepReadonly, Tuple } from "ts-essentials";
-import { Join } from "../utils";
-import { AbiEventVar, AbiItemEvent } from "./event";
-import { AbiFunctionVar, AbiItemFunction } from "./function";
 
-export type AbiVarType = "address" | "string" | "uint256" | "int256" | "bool";
-export type AbiItem = DeepReadonly<AbiItemFunction | AbiItemEvent>;
-export type AbiVar = DeepReadonly<AbiFunctionVar | AbiEventVar>;
+export type AbiVarType = keyof InputTypesMap | keyof OutputTypesMap;
+export type AbiInputTypeToTypescriptType<T extends AbiVarType> =
+  InputTypesMap[T];
+export type AbiOutputTypeToTypescriptType<T extends AbiVarType> =
+  OutputTypesMap[T];
 
-// Abi Conversion Utils
-export type AbiInputTypeToTypescriptType<T extends AbiVarType> = {
+type InputTypesMap = CommonTypesMap &
+  NumberTypesMap<ethers.BigNumberish, ethers.BigNumberish> &
+  BytesTypesMap<ethers.utils.BytesLike>;
+type OutputTypesMap = CommonTypesMap &
+  NumberTypesMap<number, ethers.BigNumber> &
+  BytesTypesMap<string>;
+
+type CommonTypesMap = {
   address: string;
   string: string;
-  uint256: ethers.BigNumberish;
-  int256: ethers.BigNumberish;
   bool: boolean;
-}[T];
+};
 
-export type AbiOutputTypeToTypescriptType<T extends AbiVarType> = {
-  address: string;
-  string: string;
-  uint256: ethers.BigNumber;
-  int256: ethers.BigNumber;
-  bool: boolean;
-}[T];
+type BytesTypesMap<T> = { bytes: T } & {
+  [_ in `bytes${number}`]: T;
+};
 
-type AbiInputsToSignatureParameters<T extends readonly AbiVar[]> = [
-  ...{
-    [K in keyof T]: T[K] extends AbiVar ? T[K]["type"] : never;
-  }
-];
-export type AbiItemToSignature<T extends AbiItem> = `${T["name"]}(${Join<
-  AbiInputsToSignatureParameters<T["inputs"]>,
-  ","
->})`;
-
-export type VoidOrSingleOrTuple<
-  T extends Tuple,
-  Unwrap extends boolean
-> = Unwrap extends true
-  ? T extends []
-    ? void
-    : T extends [infer T0]
-    ? T0
-    : T
-  : T extends []
-  ? [void]
-  : T;
+type NumberTypesMap<TSmallNumber, TLargeNumber> = {
+  uint: TLargeNumber;
+  uint8: TSmallNumber;
+  uint16: TSmallNumber;
+  uint24: TSmallNumber;
+  uint32: TSmallNumber;
+  uint40: TSmallNumber;
+  uint48: TSmallNumber;
+  int: TLargeNumber;
+  int8: TSmallNumber;
+  int16: TSmallNumber;
+  int24: TSmallNumber;
+  int32: TSmallNumber;
+  int40: TSmallNumber;
+  int48: TSmallNumber;
+} & {
+  [_ in `uint${number}`]: TLargeNumber;
+} & {
+  [_ in `int${number}`]: TLargeNumber;
+};

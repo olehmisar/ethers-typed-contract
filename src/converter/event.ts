@@ -2,10 +2,9 @@ import { ethers } from "ethers";
 import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
 import { AbiToContract } from ".";
 import { ExpandObject } from "../utils";
+import { AbiItem, AbiItemToSignature } from "./common";
 import {
   AbiInputTypeToTypescriptType,
-  AbiItem,
-  AbiItemToSignature,
   AbiOutputTypeToTypescriptType,
   AbiVarType,
 } from "./types";

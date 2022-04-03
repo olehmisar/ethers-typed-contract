@@ -31,11 +31,18 @@ contract TestAbi {
     function overloaded(uint256 a) external {}
     function overloaded(uint256 a, address b) external {}
 
-    function differentTypes(address a, uint256 u, int256 i, bool b, string memory s) external {}
+    function primitiveTypes(address, bool) external pure returns (address, bool) {}
+    // TODO: pack all available types in a struct(when structs are supported) to test all types (packing into a struct avoids stack too deep error)
+    function uintTypes(uint, uint8, uint16, uint32, uint64, uint128, uint256) external pure returns (uint, uint8, uint16, uint32, uint64, uint128, uint256) {}
+    // TODO: pack all available types in a struct(when structs are supported) to test all types (packing into a struct avoids stack too deep error)
+    function intTypes(int, int8, int16, int32, int64, int128, int256) external pure returns (int, int8, int16, int32, int64, int128, int256) {}
+    // TODO: pack all available types in a struct(when structs are supported) to test all types (packing into a struct avoids stack too deep error)
+    function bytesTypes(bytes1, bytes2, bytes4, bytes8, bytes16, bytes32) external pure returns (bytes1, bytes2, bytes4, bytes8, bytes16, bytes32) {}
+    // TODO: pack all available types in a struct(when structs are supported) to test all types (packing into a struct avoids stack too deep error)
+    function dynamicTypes(string memory, bytes memory) external pure returns (string memory, bytes memory) {}
 }
 ```
 */
-
 export default <const>[
   {
     anonymous: false,
@@ -174,34 +181,178 @@ export default <const>[
   {
     inputs: [
       {
-        internalType: "address",
-        name: "a",
-        type: "address",
+        internalType: "bytes1",
+        name: "",
+        type: "bytes1",
       },
       {
-        internalType: "uint256",
-        name: "u",
-        type: "uint256",
+        internalType: "bytes2",
+        name: "",
+        type: "bytes2",
       },
+      {
+        internalType: "bytes4",
+        name: "",
+        type: "bytes4",
+      },
+      {
+        internalType: "bytes8",
+        name: "",
+        type: "bytes8",
+      },
+      {
+        internalType: "bytes16",
+        name: "",
+        type: "bytes16",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    name: "bytesTypes",
+    outputs: [
+      {
+        internalType: "bytes1",
+        name: "",
+        type: "bytes1",
+      },
+      {
+        internalType: "bytes2",
+        name: "",
+        type: "bytes2",
+      },
+      {
+        internalType: "bytes4",
+        name: "",
+        type: "bytes4",
+      },
+      {
+        internalType: "bytes8",
+        name: "",
+        type: "bytes8",
+      },
+      {
+        internalType: "bytes16",
+        name: "",
+        type: "bytes16",
+      },
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "dynamicTypes",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "int256",
-        name: "i",
+        name: "",
         type: "int256",
       },
       {
-        internalType: "bool",
-        name: "b",
-        type: "bool",
+        internalType: "int8",
+        name: "",
+        type: "int8",
       },
       {
-        internalType: "string",
-        name: "s",
-        type: "string",
+        internalType: "int16",
+        name: "",
+        type: "int16",
+      },
+      {
+        internalType: "int32",
+        name: "",
+        type: "int32",
+      },
+      {
+        internalType: "int64",
+        name: "",
+        type: "int64",
+      },
+      {
+        internalType: "int128",
+        name: "",
+        type: "int128",
+      },
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
       },
     ],
-    name: "differentTypes",
-    outputs: [],
-    stateMutability: "nonpayable",
+    name: "intTypes",
+    outputs: [
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
+      },
+      {
+        internalType: "int8",
+        name: "",
+        type: "int8",
+      },
+      {
+        internalType: "int16",
+        name: "",
+        type: "int16",
+      },
+      {
+        internalType: "int32",
+        name: "",
+        type: "int32",
+      },
+      {
+        internalType: "int64",
+        name: "",
+        type: "int64",
+      },
+      {
+        internalType: "int128",
+        name: "",
+        type: "int128",
+      },
+      {
+        internalType: "int256",
+        name: "",
+        type: "int256",
+      },
+    ],
+    stateMutability: "pure",
     type: "function",
   },
   {
@@ -330,6 +481,35 @@ export default <const>[
   {
     inputs: [
       {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    name: "primitiveTypes",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "a",
         type: "uint256",
@@ -402,6 +582,85 @@ export default <const>[
     inputs: [],
     name: "pureNoArgsNoReturn",
     outputs: [],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+      {
+        internalType: "uint64",
+        name: "",
+        type: "uint64",
+      },
+      {
+        internalType: "uint128",
+        name: "",
+        type: "uint128",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "uintTypes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint16",
+        name: "",
+        type: "uint16",
+      },
+      {
+        internalType: "uint32",
+        name: "",
+        type: "uint32",
+      },
+      {
+        internalType: "uint64",
+        name: "",
+        type: "uint64",
+      },
+      {
+        internalType: "uint128",
+        name: "",
+        type: "uint128",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "pure",
     type: "function",
   },

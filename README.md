@@ -54,7 +54,7 @@ await token.unknownMethod(123); // compile error: Property 'unknownMethod' does 
 ## TODO
 
 - [ ] Support more data types:
-  - [ ] all primitive types
+  - [x] all primitive types
   - [ ] `struct`
   - [ ] arrays
 - [ ] Support for `contract.interface`
