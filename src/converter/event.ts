@@ -1,14 +1,16 @@
 import { ethers } from "ethers";
 import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
-import { AbiItem, AbiToContract } from ".";
-import { ExpandObject, Join } from "../utils";
+import { AbiToContract } from ".";
+import { ExpandObject } from "../utils";
 import {
   AbiInputTypeToTypescriptType,
+  AbiItem,
+  AbiItemToSignature,
   AbiOutputTypeToTypescriptType,
   AbiVarType,
 } from "./types";
 
-type AbiEventVar = DeepReadonly<{
+export type AbiEventVar = DeepReadonly<{
   name: string;
   type: AbiVarType;
   indexed: boolean;
@@ -94,16 +96,6 @@ type AbiEventInputsToTypedEventObject<T extends readonly AbiEventVar[]> =
       }[number]
     >
   >;
-
-type AbiEventInputsToSignatureParameters<T extends readonly AbiEventVar[]> = [
-  ...{
-    [K in keyof T]: T[K] extends AbiEventVar ? T[K]["type"] : never;
-  }
-];
-type AbiItemToSignature<T extends AbiItemEvent> = `${T["name"]}(${Join<
-  AbiEventInputsToSignatureParameters<T["inputs"]>,
-  ","
->})`;
 
 type AbiItemToFilterFunction<T extends AbiItemEvent> = (
   ...args: [...AbiEventInputsToParameters<T["inputs"]>]

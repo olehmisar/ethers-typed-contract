@@ -21,3 +21,22 @@ export type Join<
   : T["length"] extends 1
   ? T[0]
   : `${Head<T>}${Sep}${Join<Tail<T>, Sep>}`;
+
+export type ArrayOmit<T extends any[], E> = T["length"] extends 0
+  ? []
+  : T extends [infer THead, ...infer TRest]
+  ? THead extends E
+    ? ArrayOmit<TRest, E>
+    : [THead, ...ArrayOmit<TRest, E>]
+  : never;
+
+declare const __VALUE_TO_OMIT__: unique symbol;
+export type __VALUE_TO_OMIT__ = typeof __VALUE_TO_OMIT__;
+export type Count<T extends readonly any[], E> = ArrayOmit<
+  [
+    ...{
+      [K in keyof T]: T[K] extends E ? T[K] : __VALUE_TO_OMIT__;
+    }
+  ],
+  __VALUE_TO_OMIT__
+>["length"];

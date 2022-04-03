@@ -1,8 +1,14 @@
 import { ethers } from "ethers";
-import { Tuple } from "ts-essentials";
+import { DeepReadonly, Tuple } from "ts-essentials";
+import { Join } from "../utils";
+import { AbiEventVar, AbiItemEvent } from "./event";
+import { AbiFunctionVar, AbiItemFunction } from "./function";
 
 export type AbiVarType = "address" | "string" | "uint256" | "int256" | "bool";
+export type AbiItem = DeepReadonly<AbiItemFunction | AbiItemEvent>;
+export type AbiVar = DeepReadonly<AbiFunctionVar | AbiEventVar>;
 
+// Abi Conversion Utils
 export type AbiInputTypeToTypescriptType<T extends AbiVarType> = {
   address: string;
   string: string;
@@ -19,7 +25,16 @@ export type AbiOutputTypeToTypescriptType<T extends AbiVarType> = {
   bool: boolean;
 }[T];
 
-// Abi Conversion Utils
+type AbiInputsToSignatureParameters<T extends readonly AbiVar[]> = [
+  ...{
+    [K in keyof T]: T[K] extends AbiVar ? T[K]["type"] : never;
+  }
+];
+export type AbiItemToSignature<T extends AbiItem> = `${T["name"]}(${Join<
+  AbiInputsToSignatureParameters<T["inputs"]>,
+  ","
+>})`;
+
 export type VoidOrSingleOrTuple<
   T extends Tuple,
   Unwrap extends boolean

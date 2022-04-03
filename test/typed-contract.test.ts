@@ -94,6 +94,30 @@ assertType<
     TypechainTestAbi["functions"]["pureArgsTupleReturn"]
   >
 >();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["differentTypes"],
+    TypechainTestAbi["functions"]["differentTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["overloaded()"],
+    TypechainTestAbi["functions"]["overloaded()"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["overloaded(uint256)"],
+    TypechainTestAbi["functions"]["overloaded(uint256)"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["overloaded(uint256,address)"],
+    TypechainTestAbi["functions"]["overloaded(uint256,address)"]
+  >
+>();
 
 ////////////////
 // callStatic //
@@ -131,6 +155,30 @@ assertType<
     TypechainTestAbi["callStatic"]["pureArgsTupleReturn"]
   >
 >();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["differentTypes"],
+    TypechainTestAbi["callStatic"]["differentTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["overloaded()"],
+    TypechainTestAbi["callStatic"]["overloaded()"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["overloaded(uint256)"],
+    TypechainTestAbi["callStatic"]["overloaded(uint256)"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["overloaded(uint256,address)"],
+    TypechainTestAbi["callStatic"]["overloaded(uint256,address)"]
+  >
+>();
 
 /////////////////
 // estimateGas //
@@ -166,6 +214,30 @@ assertType<
   Equals<
     typeof typedContract["estimateGas"]["pureArgsTupleReturn"],
     TypechainTestAbi["estimateGas"]["pureArgsTupleReturn"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["differentTypes"],
+    TypechainTestAbi["estimateGas"]["differentTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["overloaded()"],
+    TypechainTestAbi["estimateGas"]["overloaded()"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["overloaded(uint256)"],
+    TypechainTestAbi["estimateGas"]["overloaded(uint256)"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["overloaded(uint256,address)"],
+    TypechainTestAbi["estimateGas"]["overloaded(uint256,address)"]
   >
 >();
 
@@ -206,6 +278,30 @@ assertType<
   Equals<
     typeof typedContract["populateTransaction"]["pureArgsTupleReturn"],
     TypechainTestAbi["populateTransaction"]["pureArgsTupleReturn"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["differentTypes"],
+    TypechainTestAbi["populateTransaction"]["differentTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["overloaded()"],
+    TypechainTestAbi["populateTransaction"]["overloaded()"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["overloaded(uint256)"],
+    TypechainTestAbi["populateTransaction"]["overloaded(uint256)"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["overloaded(uint256,address)"],
+    TypechainTestAbi["populateTransaction"]["overloaded(uint256,address)"]
   >
 >();
 

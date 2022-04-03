@@ -1,22 +1,17 @@
 import { ethers } from "ethers";
-import { DeepReadonly, MergeN } from "ts-essentials";
+import { MergeN } from "ts-essentials";
 import { ExpandObject } from "../utils";
+import { AbiItemsToEventMethods, AbiItemsToFilters } from "./event";
 import {
-  AbiItemEvent,
-  AbiItemsToEventMethods,
-  AbiItemsToFilters,
-} from "./event";
-import {
-  AbiItemFunction,
   AbiItemsToCallStatic,
   AbiItemsToEstimateGas,
   AbiItemsToFunctions,
   AbiItemsToMethods,
   AbiItemsToPopulateTransaction,
 } from "./function";
+import { AbiItem } from "./types";
 
 // Main Converter
-export type AbiItem = DeepReadonly<AbiItemFunction | AbiItemEvent>;
 export type AbiToContract<T extends readonly AbiItem[]> = ExpandObject<
   MergeN<
     [
