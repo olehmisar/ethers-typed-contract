@@ -40,3 +40,31 @@ export type Count<T extends readonly any[], E> = ArrayOmit<
   ],
   __VALUE_TO_OMIT__
 >["length"];
+
+export type FixedLengthArray<T, N extends number> = number extends N
+  ? T[]
+  : FixedLengthArrayHelper<T, N, []>;
+type FixedLengthArrayHelper<
+  T,
+  N extends number,
+  Acc extends T[]
+> = Acc["length"] extends N ? Acc : FixedLengthArrayHelper<T, N, [T, ...Acc]>;
+
+export type StringToNumber<T extends string> =
+  T extends keyof StringToNumberRange ? StringToNumberRange[T] : unknown;
+type StringToNumber__MAXIMUM_ALLOWED_BOUNDARY = 998;
+export type StringToNumberRange =
+  Mapped<StringToNumber__MAXIMUM_ALLOWED_BOUNDARY>;
+type Mapped<
+  N extends number,
+  Result extends unknown[] = []
+> = Result["length"] extends N
+  ? Result
+  : Mapped<N, [...Result, Result["length"]]>;
+
+export type ParseSolidityArrayBrackets<T extends string> =
+  T extends `${infer TElement}[${infer N}]`
+    ? N extends `${infer TBefore}[${infer NCorrect}`
+      ? [`${TElement}[${TBefore}`, NCorrect]
+      : [TElement, N]
+    : unknown;

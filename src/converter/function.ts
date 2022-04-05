@@ -1,13 +1,11 @@
 import { ethers } from "ethers";
 import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
 import { ArrayOmit, Count, ExpandObject, __VALUE_TO_OMIT__ } from "../utils";
+import { AbiItem, AbiItemToSignature, VoidOrSingleOrTuple } from "./common";
 import {
   AbiInputTypeToTypescriptType,
-  AbiItem,
-  AbiItemToSignature,
   AbiOutputTypeToTypescriptType,
   AbiVarType,
-  VoidOrSingleOrTuple,
 } from "./types";
 
 // Types
