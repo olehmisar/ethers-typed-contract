@@ -20,10 +20,7 @@ type NotTestedKeys =
   | "removeListener"
   | "listeners"
   | "removeAllListeners";
-type TypechainTestAbiWoTestedKeys = StrictOmit<
-  TypechainTestAbi,
-  "contractName" | NotTestedKeys
->;
+type TypechainTestAbiWoTestedKeys = StrictOmit<TypechainTestAbi, NotTestedKeys>;
 type TypedContractWoTestedKeys = StrictOmit<
   typeof typedContract,
   NotTestedKeys
@@ -86,6 +83,9 @@ assertType<
 >();
 assertType<
   Equals<typeof typedContract["arrayTypes"], TypechainTestAbi["arrayTypes"]>
+>();
+assertType<
+  Equals<typeof typedContract["structTypes"], TypechainTestAbi["structTypes"]>
 >();
 
 ///////////////
@@ -176,6 +176,12 @@ assertType<
   Equals<
     typeof typedContract["functions"]["arrayTypes"],
     TypechainTestAbi["functions"]["arrayTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["functions"]["structTypes"],
+    TypechainTestAbi["functions"]["structTypes"]
   >
 >();
 
@@ -269,6 +275,12 @@ assertType<
     TypechainTestAbi["callStatic"]["arrayTypes"]
   >
 >();
+assertType<
+  Equals<
+    typeof typedContract["callStatic"]["structTypes"],
+    TypechainTestAbi["callStatic"]["structTypes"]
+  >
+>();
 
 /////////////////
 // estimateGas //
@@ -358,6 +370,12 @@ assertType<
   Equals<
     typeof typedContract["estimateGas"]["arrayTypes"],
     TypechainTestAbi["estimateGas"]["arrayTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["estimateGas"]["structTypes"],
+    TypechainTestAbi["estimateGas"]["structTypes"]
   >
 >();
 
@@ -452,6 +470,12 @@ assertType<
   Equals<
     typeof typedContract["populateTransaction"]["arrayTypes"],
     TypechainTestAbi["populateTransaction"]["arrayTypes"]
+  >
+>();
+assertType<
+  Equals<
+    typeof typedContract["populateTransaction"]["structTypes"],
+    TypechainTestAbi["populateTransaction"]["structTypes"]
   >
 >();
 
