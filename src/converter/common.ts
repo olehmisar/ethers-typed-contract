@@ -1,15 +1,20 @@
 import { DeepReadonly, Tuple } from "ts-essentials";
 import { Join } from "../utils";
-import { AbiEventVar, AbiItemEvent } from "./event";
-import { AbiFunctionVar, AbiItemFunction } from "./function";
+import { AbiItemEvent } from "./event";
+import { AbiItemFunction } from "./function";
+import { AbiVarType } from "./types";
 
+export type AbiVarBase = DeepReadonly<{
+  type: AbiVarType;
+  name: string;
+  components?: AbiVarBase[];
+}>;
 export type AbiItem = DeepReadonly<AbiItemFunction | AbiItemEvent>;
-export type AbiVar = DeepReadonly<AbiFunctionVar | AbiEventVar>;
 
 // Abi Conversion Utils
-type AbiInputsToSignatureParameters<T extends readonly AbiVar[]> = [
+type AbiInputsToSignatureParameters<T extends readonly AbiVarBase[]> = [
   ...{
-    [K in keyof T]: T[K] extends AbiVar ? T[K]["type"] : never;
+    [K in keyof T]: T[K] extends AbiVarBase ? T[K]["type"] : never;
   }
 ];
 export type AbiItemToSignature<T extends AbiItem> = `${T["name"]}(${Join<

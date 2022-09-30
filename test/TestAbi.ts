@@ -6,6 +6,18 @@ contract TestAbi {
     event OneArg(address a);
     event TwoArgs(address a, uint256 u);
     event Indexed(address indexed a, uint256 u, bool indexed b);
+    // TODO: test all types(bytes, arrays, structs) with events too
+
+    struct RootStruct {
+        string name;
+        uint256 age;
+        uint256[] balances;
+        NestedStruct[3][][2][] nestedStruct;
+    }
+
+    struct NestedStruct {
+        uint256[] nestedBalances;
+    }
 
     function noArgsNoReturn() external {}
     function argsNoReturn(uint256 a, address b) external {}
@@ -42,6 +54,8 @@ contract TestAbi {
     function dynamicTypes(string memory, bytes memory) external pure returns (string memory, bytes memory) {}
     function arrayTypes(uint256[] memory, uint256[][] memory, uint256[2] memory, uint256[2][3] memory, uint256[][2] memory, uint256[2][] memory)
         external pure returns (uint256[] memory, uint256[][] memory, uint256[2] memory, uint256[2][3] memory, uint256[][2] memory, uint256[2][] memory) {}
+    function structTypes(RootStruct memory, RootStruct[][] memory, RootStruct[2][3] memory)
+        external pure returns (RootStruct memory, RootStruct[][] memory, RootStruct[2][3] memory) {}
 }
 ```
 */
@@ -653,6 +667,220 @@ export default <const>[
     inputs: [],
     name: "pureNoArgsNoReturn",
     outputs: [],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      // {
+      //   components: [
+      //     // {
+      //     //   internalType: "string",
+      //     //   name: "name",
+      //     //   type: "string",
+      //     // },
+      //     // {
+      //     //   internalType: "uint256",
+      //     //   name: "age",
+      //     //   type: "uint256",
+      //     // },
+      //     // {
+      //     //   internalType: "uint256[]",
+      //     //   name: "balances",
+      //     //   type: "uint256[]",
+      //     // },
+      //     {
+      //       components: [
+      //         {
+      //           internalType: "uint256[]",
+      //           name: "nestedBalances",
+      //           type: "uint256[]",
+      //         },
+      //       ],
+      //       internalType: "struct TestAbi.NestedStruct[3][][2][]",
+      //       name: "nestedStruct",
+      //       type: "tuple[3][][2][]",
+      //       // type: "tuple[3][][2][]",
+      //     },
+      //   ],
+      //   internalType: "struct TestAbi.RootStruct",
+      //   name: "",
+      //   type: "tuple",
+      // },
+      // {
+      //   components: [
+      //     {
+      //       internalType: "string",
+      //       name: "name",
+      //       type: "string",
+      //     },
+      //     {
+      //       internalType: "uint256",
+      //       name: "age",
+      //       type: "uint256",
+      //     },
+      //     {
+      //       internalType: "uint256[]",
+      //       name: "balances",
+      //       type: "uint256[]",
+      //     },
+      //     {
+      //       components: [
+      //         {
+      //           internalType: "uint256[]",
+      //           name: "nestedBalances",
+      //           type: "uint256[]",
+      //         },
+      //       ],
+      //       internalType: "struct TestAbi.NestedStruct[3][][2][]",
+      //       name: "nestedStruct",
+      //       type: "tuple[3][][2][]",
+      //     },
+      //   ],
+      //   internalType: "struct TestAbi.RootStruct[][]",
+      //   name: "",
+      //   type: "tuple[][]",
+      // },
+      // {
+      //   components: [
+      //     {
+      //       internalType: "string",
+      //       name: "name",
+      //       type: "string",
+      //     },
+      //     {
+      //       internalType: "uint256",
+      //       name: "age",
+      //       type: "uint256",
+      //     },
+      //     {
+      //       internalType: "uint256[]",
+      //       name: "balances",
+      //       type: "uint256[]",
+      //     },
+      //     {
+      //       components: [
+      //         {
+      //           internalType: "uint256[]",
+      //           name: "nestedBalances",
+      //           type: "uint256[]",
+      //         },
+      //       ],
+      //       internalType: "struct TestAbi.NestedStruct[3][][2][]",
+      //       name: "nestedStruct",
+      //       type: "tuple[3][][2][]",
+      //     },
+      //   ],
+      //   internalType: "struct TestAbi.RootStruct[2][3]",
+      //   name: "",
+      //   type: "tuple[2][3]",
+      // },
+    ],
+    name: "structTypes",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "age",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "balances",
+            type: "uint256[]",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256[]",
+                name: "nestedBalances",
+                type: "uint256[]",
+              },
+            ],
+            internalType: "struct TestAbi.NestedStruct[3][][2][]",
+            name: "nestedStruct",
+            type: "tuple[3][][2][]",
+          },
+        ],
+        internalType: "struct TestAbi.RootStruct",
+        name: "",
+        type: "tuple",
+      },
+      // {
+      //   components: [
+      //     {
+      //       internalType: "string",
+      //       name: "name",
+      //       type: "string",
+      //     },
+      //     {
+      //       internalType: "uint256",
+      //       name: "age",
+      //       type: "uint256",
+      //     },
+      //     {
+      //       internalType: "uint256[]",
+      //       name: "balances",
+      //       type: "uint256[]",
+      //     },
+      //     {
+      //       components: [
+      //         {
+      //           internalType: "uint256[]",
+      //           name: "nestedBalances",
+      //           type: "uint256[]",
+      //         },
+      //       ],
+      //       internalType: "struct TestAbi.NestedStruct[3][][2][]",
+      //       name: "nestedStruct",
+      //       type: "tuple[3][][2][]",
+      //     },
+      //   ],
+      //   internalType: "struct TestAbi.RootStruct[][]",
+      //   name: "",
+      //   type: "tuple[][]",
+      // },
+      // {
+      //   components: [
+      //     {
+      //       internalType: "string",
+      //       name: "name",
+      //       type: "string",
+      //     },
+      //     {
+      //       internalType: "uint256",
+      //       name: "age",
+      //       type: "uint256",
+      //     },
+      //     {
+      //       internalType: "uint256[]",
+      //       name: "balances",
+      //       type: "uint256[]",
+      //     },
+      //     {
+      //       components: [
+      //         {
+      //           internalType: "uint256[]",
+      //           name: "nestedBalances",
+      //           type: "uint256[]",
+      //         },
+      //       ],
+      //       internalType: "struct TestAbi.NestedStruct[3][][2][]",
+      //       name: "nestedStruct",
+      //       type: "tuple[3][][2][]",
+      //     },
+      //   ],
+      //   internalType: "struct TestAbi.RootStruct[2][3]",
+      //   name: "",
+      //   type: "tuple[2][3]",
+      // },
+    ],
     stateMutability: "pure",
     type: "function",
   },

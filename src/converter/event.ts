@@ -2,18 +2,16 @@ import { ethers } from "ethers";
 import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
 import { AbiToContract } from ".";
 import { ExpandObject } from "../utils";
-import { AbiItem, AbiItemToSignature } from "./common";
+import { AbiItem, AbiItemToSignature, AbiVarBase } from "./common";
 import {
-  AbiInputTypeToTypescriptType,
-  AbiOutputTypeToTypescriptType,
-  AbiVarType,
+  AbiVarsToTypescriptArrayType,
+  AbiVarsToTypescriptObjectType,
+  AbiVarToTypescriptType,
 } from "./types";
 
-export type AbiEventVar = DeepReadonly<{
-  name: string;
-  type: AbiVarType;
+export interface AbiEventVar extends AbiVarBase {
   indexed: boolean;
-}>;
+}
 export type AbiItemEvent = DeepReadonly<{
   type: "event";
   name: string;
@@ -68,40 +66,39 @@ type AbiEventInputsToParameters<T extends readonly AbiEventVar[]> = [
   ...{
     [K in keyof T]?: T[K] extends AbiEventVar
       ? T[K]["indexed"] extends true
-        ? AbiInputTypeToTypescriptType<T[K]["type"]> | null | undefined
+        ? AbiVarToTypescriptType<T[K], false> | null | undefined
         : null | undefined
       : unknown;
   }
 ];
-type AbiEventInputsToTypedEventArray<T extends readonly AbiEventVar[]> = [
-  ...{
-    [K in keyof T]: T[K] extends AbiEventVar
-      ? AbiOutputTypeToTypescriptType<T[K]["type"]>
-      : never;
-  }
-];
 
-type AbiEventInputsToTypedEventObject<T extends readonly AbiEventVar[]> =
-  ExpandObject<
-    UnionToIntersection<
-      {
-        [K in keyof T]: T[K] extends AbiEventVar
-          ? {
-              [key in T[K]["name"]]: AbiOutputTypeToTypescriptType<
-                T[K]["type"]
-              >;
-            }
-          : unknown;
-      }[number]
-    >
-  >;
+// type AbiEventInputsToTypedEventArray<T extends readonly AbiEventVar[]> = [
+//   ...{
+//     [K in keyof T]: T[K] extends AbiEventVar
+//       ? AbiOutputTypeToTypescriptType<T[K]>
+//       : never;
+//   }
+// ];
+
+// type AbiEventInputsToTypedEventObject<T extends readonly AbiEventVar[]> =
+//   ExpandObject<
+//     UnionToIntersection<
+//       {
+//         [K in keyof T]: T[K] extends AbiEventVar
+//           ? {
+//               [key in T[K]["name"]]: AbiOutputTypeToTypescriptType<T[K]>;
+//             }
+//           : unknown;
+//       }[number]
+//     >
+//   >;
 
 type AbiItemToFilterFunction<T extends AbiItemEvent> = (
   ...args: [...AbiEventInputsToParameters<T["inputs"]>]
 ) => TypedEventFilter<
   TypedEvent<
-    AbiEventInputsToTypedEventArray<T["inputs"]>,
-    AbiEventInputsToTypedEventObject<T["inputs"]>
+    AbiVarsToTypescriptArrayType<T["inputs"], true>,
+    AbiVarsToTypescriptObjectType<T["inputs"], true>
   >
 >;
 

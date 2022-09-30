@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Provider } from "@ethersproject/providers";
+import type { Provider } from "@ethersproject/providers";
 import { Contract, Signer, utils } from "ethers";
 import type { TestAbi, TestAbiInterface } from "../TestAbi";
 
@@ -614,6 +614,48 @@ const _abi = [
     inputs: [],
     name: "pureNoArgsNoReturn",
     outputs: [],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "structTypes",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "age",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "balances",
+            type: "uint256[]",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256[]",
+                name: "nestedBalances",
+                type: "uint256[]",
+              },
+            ],
+            internalType: "struct TestAbi.NestedStruct[3][][2][]",
+            name: "nestedStruct",
+            type: "tuple[3][][2][]",
+          },
+        ],
+        internalType: "struct TestAbi.RootStruct",
+        name: "",
+        type: "tuple",
+      },
+    ],
     stateMutability: "pure",
     type: "function",
   },

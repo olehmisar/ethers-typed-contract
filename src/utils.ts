@@ -62,9 +62,4 @@ type Mapped<
   ? Result
   : Mapped<N, [...Result, Result["length"]]>;
 
-export type ParseSolidityArrayBrackets<T extends string> =
-  T extends `${infer TElement}[${infer N}]`
-    ? N extends `${infer TBefore}[${infer NCorrect}`
-      ? [`${TElement}[${TBefore}`, NCorrect]
-      : [TElement, N]
-    : unknown;
+export type DefaultIfUndefined<T, D> = T extends undefined ? D : T;

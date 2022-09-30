@@ -1,15 +1,16 @@
 import { ethers } from "ethers";
 import { DeepReadonly, Merge, UnionToIntersection } from "ts-essentials";
 import { ArrayOmit, Count, ExpandObject, __VALUE_TO_OMIT__ } from "../utils";
-import { AbiItem, AbiItemToSignature, VoidOrSingleOrTuple } from "./common";
 import {
-  AbiInputTypeToTypescriptType,
-  AbiOutputTypeToTypescriptType,
-  AbiVarType,
-} from "./types";
+  AbiItem,
+  AbiItemToSignature,
+  AbiVarBase,
+  VoidOrSingleOrTuple,
+} from "./common";
+import { AbiVarToTypescriptType } from "./types";
 
 // Types
-export type AbiFunctionVar = DeepReadonly<{ name: string; type: AbiVarType }>;
+export type AbiFunctionVar = AbiVarBase;
 type AbiStateMutability = "pure" | "view" | "nonpayable" | "payable";
 export type AbiItemFunction = DeepReadonly<{
   type: "function";
@@ -28,14 +29,14 @@ type AbiItemToFunctionName<
 type AbiFunctionInputsToParameters<T extends readonly AbiFunctionVar[]> = [
   ...{
     [K in keyof T]: T[K] extends AbiFunctionVar
-      ? AbiInputTypeToTypescriptType<T[K]["type"]>
+      ? AbiVarToTypescriptType<T[K], false>
       : unknown;
   }
 ];
 type AbiFunctionOutputsToReturnTypes<T extends readonly AbiFunctionVar[]> = [
   ...{
     [K in keyof T]: T[K] extends AbiFunctionVar
-      ? AbiOutputTypeToTypescriptType<T[K]["type"]>
+      ? AbiVarToTypescriptType<T[K], true>
       : unknown;
   }
 ];
